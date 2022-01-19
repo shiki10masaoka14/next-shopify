@@ -31,7 +31,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: build
         shell: bash
-        run: yarn next build
+        run: yarn build:nexus-typegen && next build
 
       - uses: amondnet/vercel-action@v20
         with:

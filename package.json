@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next",
     "build:nexus-typegen": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only schema",
-    "build": "npm run build:nexus-typegen && next build",
+    "build": "yarn build:nexus-typegen && next build",
     "start": "next start",
     "studio": "prisma studio",
     "push": "prisma db push",
