@@ -30,7 +30,7 @@ jobs:
       - name: build
         shell: bash
         run: |
-          yarn ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only schema
+          yarn ts-node --transpile-only schema
           yarn next build
 
       - uses: amondnet/vercel-action@v20
