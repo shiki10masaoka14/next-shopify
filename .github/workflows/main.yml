@@ -29,9 +29,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: build
         shell: bash
-        run: |
-          yarn ts-node --transpile-only schema
-          yarn next build
+        run: yarn build
 
       - uses: amondnet/vercel-action@v20
         with:
