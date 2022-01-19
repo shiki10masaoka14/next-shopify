@@ -6,7 +6,7 @@ on:
     inputs:
       ref:
         description: branch|tag|SHA to checkout
-        default: 'main'
+        default: "main"
         required: true
 jobs:
   deploy:
@@ -24,14 +24,14 @@ jobs:
         run: yarn install
       - name: prisma
         shell: bash
-        run: |
-          # yarn prisma db push
-          yarn prisma generate
+        run: yarn prisma generate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: build
         shell: bash
-        run: yarn build:nexus-typegen && next build
+        run: |
+          yarn ts-node --compiler-options '{\"module\":\"CommonJS\"}' --transpile-only schema
+          yarn next build
 
       - uses: amondnet/vercel-action@v20
         with:
