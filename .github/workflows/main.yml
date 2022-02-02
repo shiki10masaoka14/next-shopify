@@ -19,11 +19,9 @@ jobs:
         with:
           node-version: "16"
 
-      - name: install_build
+      - name: install
         shell: bash
-        run: 
-          - yarn install
-          - yarn build
+        run: yarn install
 
       - uses: amondnet/vercel-action@v20
         with:
