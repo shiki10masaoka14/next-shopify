@@ -1,0 +1,17 @@
+query getAllTodos {
+  allTodos {
+    data {
+      _id
+      task
+      completed
+    }
+  }
+}
+
+query getFindTodoByID($id: ID!) {
+  findTodoByID(id: $id) {
+    _id
+    task
+    completed
+  }
+}

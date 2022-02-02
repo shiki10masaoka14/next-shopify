@@ -5,10 +5,11 @@
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
   "extensions": [
-    "prisma.prisma",
     "streetsidesoftware.code-spell-checker",
     "dbaeumer.vscode-eslint",
     "oderwat.indent-rainbow",
     "esbenp.prettier-vscode",
-    "visualstudioexptteam.vscodeintellicode"  ]
+    "visualstudioexptteam.vscodeintellicode",
+    "graphql.vscode-graphql"
+  ]
 }

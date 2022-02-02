@@ -1,0 +1,37 @@
+# schema: graphql/schema.graphql
+# documents: graphql/query/*.graphql
+# generates:
+#   graphql/generated/generated.ts:
+#     config:
+#       - useIndexSignature: true
+#       - withHooks: true
+#     plugins:
+#       - typescript
+#       - typescript-resolvers
+#       - typescript-operations
+#       - typescript-react-apollo
+
+# back end
+# schema: graphql/schema.graphql
+# generates:
+#   graphql/generated/generated.ts:
+#     config:
+#       useIndexSignature: true
+#     plugins:
+#       - typescript
+#       - typescript-resolvers
+
+# front end
+schema: graphql/schema.gql
+documents:
+  - graphql/query.gql
+  - graphql/mutation.gql
+generates:
+  graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+      # - plugin-typescript-swr
+# config:
+#   autogenSWRKey: true

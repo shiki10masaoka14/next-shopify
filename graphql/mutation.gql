@@ -1,0 +1,26 @@
+mutation CreateTodo($task: String!) {
+  createTodo(data: { task: $task, completed: false }) {
+    _id
+    task
+    completed
+  }
+}
+
+mutation DeleteTodo($id: ID!) {
+  deleteTodo(id: $id) {
+    _id
+    task
+    completed
+  }
+}
+
+mutation PartialUpdateTodo(
+  $id: ID!
+  $data: PartialUpdateTodoInput!
+) {
+  partialUpdateTodo(id: $id, data: $data) {
+    _id
+    task
+    completed
+  }
+}
