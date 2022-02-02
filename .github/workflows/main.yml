@@ -19,17 +19,11 @@ jobs:
         with:
           node-version: "16"
 
-      - name: install
+      - name: install_build
         shell: bash
-        run: yarn install
-      - name: prisma
-        shell: bash
-        run: yarn prisma generate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      - name: build
-        shell: bash
-        run: yarn build
+        run: 
+          - yarn install
+          - yarn build
 
       - uses: amondnet/vercel-action@v20
         with:
