@@ -1,7 +1,7 @@
 name: deploy website
 on:
   push:
-    branches: [fauna]
+    branches: [master]
   workflow_dispatch:
     inputs:
       ref:
@@ -19,9 +19,11 @@ jobs:
         with:
           node-version: "16"
 
-      - name: install
+      - name: install_build
         shell: bash
-        run: yarn install
+        run: 
+          - yarn install
+          - yarn build
 
       - uses: amondnet/vercel-action@v20
         with:
