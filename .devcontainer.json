@@ -1,5 +1,5 @@
 {
-  "name": "next_prisma_v2",
+  "name": "next_fauna",
   "dockerComposeFile": "./docker-compose.yml",
   "service": "node",
   "workspaceFolder": "/workspace",

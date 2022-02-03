@@ -3,9 +3,9 @@ version: "3"
 services:
   node:
     # コンテナ名
-    container_name: next_v2
+    container_name: next_fauna
     # build
-    image: 16-alpine3.14
+    image: node:16-alpine3.14
     # コンテナの中に入る
     tty: true
     # ボリューム
