@@ -5,7 +5,7 @@ services:
     # コンテナ名
     container_name: next_v2
     # build
-    image: node:17-alpine3.12
+    image: 16-alpine3.14
     # コンテナの中に入る
     tty: true
     # ボリューム

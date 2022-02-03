@@ -7,9 +7,10 @@
   "extensions": [
     "streetsidesoftware.code-spell-checker",
     "dbaeumer.vscode-eslint",
+    "fauna.fauna",
+    "graphql.vscode-graphql",
     "oderwat.indent-rainbow",
     "esbenp.prettier-vscode",
-    "visualstudioexptteam.vscodeintellicode",
-    "graphql.vscode-graphql"
+    "visualstudioexptteam.vscodeintellicode"
   ]
 }
