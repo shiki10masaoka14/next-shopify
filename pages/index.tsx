@@ -7,7 +7,7 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react";
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Router from "next/router";
 import {
   ChangeEvent,
@@ -171,7 +171,7 @@ home.displayName = "home";
 
 export default home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const sdk = getSdk(graphQLClient);
   const { allTodos } = await sdk.getAllTodos();
   return { props: { allTodos } };
