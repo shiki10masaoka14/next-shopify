@@ -17,5 +17,5 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {},
-  ignorePatterns: ["graphql/generated.ts"],
+  ignorePatterns: ["utils/generated.ts"],
 };

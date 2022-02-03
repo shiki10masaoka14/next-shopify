@@ -27,7 +27,7 @@ documents:
   - graphql/query.gql
   - graphql/mutation.gql
 generates:
-  graphql/generated.ts:
+  utils/generated.ts:
     plugins:
       - typescript
       - typescript-operations

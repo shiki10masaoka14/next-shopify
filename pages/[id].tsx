@@ -7,12 +7,12 @@ import {
 } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
 import { ChangeEvent, memo, useState } from "react";
-import { fetcher, graphQLClient } from "../graphql/fetcher";
+import { fetcher, graphQLClient } from "../utils/fetcher";
 import {
   GetFindTodoByIdQuery,
   getSdk,
   PartialUpdateTodoDocument,
-} from "../graphql/generated";
+} from "../utils/generated";
 
 // ここまで「import」
 //

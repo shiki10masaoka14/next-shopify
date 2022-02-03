@@ -21,9 +21,13 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTodo: Todo;
+  createUser: User;
   deleteTodo?: Maybe<Todo>;
+  deleteUser?: Maybe<User>;
   partialUpdateTodo?: Maybe<Todo>;
+  partialUpdateUser?: Maybe<User>;
   updateTodo?: Maybe<Todo>;
+  updateUser?: Maybe<User>;
 };
 
 
@@ -32,7 +36,17 @@ export type MutationCreateTodoArgs = {
 };
 
 
+export type MutationCreateUserArgs = {
+  data: UserInput;
+};
+
+
 export type MutationDeleteTodoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
 
@@ -43,20 +57,39 @@ export type MutationPartialUpdateTodoArgs = {
 };
 
 
+export type MutationPartialUpdateUserArgs = {
+  data: PartialUpdateUserInput;
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdateTodoArgs = {
   data: TodoInput;
   id: Scalars['ID'];
 };
 
+
+export type MutationUpdateUserArgs = {
+  data: UserInput;
+  id: Scalars['ID'];
+};
+
 export type PartialUpdateTodoInput = {
   completed?: InputMaybe<Scalars['Boolean']>;
+  owner?: InputMaybe<TodoOwnerRelation>;
   task?: InputMaybe<Scalars['String']>;
+};
+
+export type PartialUpdateUserInput = {
+  email?: InputMaybe<Scalars['String']>;
+  todos?: InputMaybe<UserTodosRelation>;
 };
 
 export type Query = {
   __typename?: 'Query';
   allTodos: TodoPage;
   findTodoByID?: Maybe<Todo>;
+  findUserByID?: Maybe<User>;
 };
 
 
@@ -70,17 +103,29 @@ export type QueryFindTodoByIdArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryFindUserByIdArgs = {
+  id: Scalars['ID'];
+};
+
 export type Todo = {
   __typename?: 'Todo';
   _id: Scalars['ID'];
   _ts: Scalars['Long'];
   completed: Scalars['Boolean'];
+  owner: User;
   task: Scalars['String'];
 };
 
 export type TodoInput = {
   completed: Scalars['Boolean'];
+  owner?: InputMaybe<TodoOwnerRelation>;
   task: Scalars['String'];
+};
+
+export type TodoOwnerRelation = {
+  connect?: InputMaybe<Scalars['ID']>;
+  create?: InputMaybe<UserInput>;
 };
 
 export type TodoPage = {
@@ -88,6 +133,31 @@ export type TodoPage = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   data: Array<Maybe<Todo>>;
+};
+
+export type User = {
+  __typename?: 'User';
+  _id: Scalars['ID'];
+  _ts: Scalars['Long'];
+  email: Scalars['String'];
+  todos: TodoPage;
+};
+
+
+export type UserTodosArgs = {
+  _cursor?: InputMaybe<Scalars['String']>;
+  _size?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserInput = {
+  email: Scalars['String'];
+  todos?: InputMaybe<UserTodosRelation>;
+};
+
+export type UserTodosRelation = {
+  connect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  create?: InputMaybe<Array<InputMaybe<TodoInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type CreateTodoMutationVariables = Exact<{

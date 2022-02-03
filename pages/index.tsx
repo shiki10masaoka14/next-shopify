@@ -23,8 +23,8 @@ import {
   GetAllTodosQuery,
   getSdk,
   PartialUpdateTodoDocument,
-} from "../graphql/generated";
-import { fetcher, graphQLClient } from "../graphql/fetcher";
+} from "../utils/generated";
+import { fetcher, graphQLClient } from "../utils/fetcher";
 import { TableComponent } from "../components/Table";
 
 // ここまで「import」
