@@ -26,8 +26,12 @@ import {
 } from "../graphql/generated";
 import { fetcher, graphQLClient } from "../graphql/fetcher";
 import { TableComponent } from "../components/Table";
-import { useSetRecoilState } from "recoil";
-import { recoilAllTodos } from "../recoil/recoilAllTodos";
+
+// ここまで「import」
+//
+//
+//
+// ここから
 
 const home: NextPage<GetAllTodosQuery> = memo(
   ({ allTodos }) => {
@@ -36,7 +40,6 @@ const home: NextPage<GetAllTodosQuery> = memo(
     const [filtering, setFiltering] = useState(false);
     const [complete, setComplete] =
       useState<boolean>(false);
-    const setTest = useSetRecoilState(recoilAllTodos);
 
     const { data, error } = useSWR(
       GetAllTodosDocument,
@@ -88,7 +91,6 @@ const home: NextPage<GetAllTodosQuery> = memo(
       e: MouseEvent<HTMLInputElement>,
     ) => {
       const id = e.currentTarget.id;
-      setTest(data);
       Router.push("/[id]", `/${id}`);
     };
 
@@ -171,8 +173,9 @@ home.displayName = "home";
 
 export default home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const sdk = getSdk(graphQLClient);
-  const { allTodos } = await sdk.getAllTodos();
-  return { props: { allTodos } };
-};
+export const getServerSideProps: GetServerSideProps =
+  async () => {
+    const sdk = getSdk(graphQLClient);
+    const { allTodos } = await sdk.getAllTodos();
+    return { props: { allTodos } };
+  };
