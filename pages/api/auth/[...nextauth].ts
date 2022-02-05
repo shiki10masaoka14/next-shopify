@@ -23,4 +23,9 @@ export default NextAuth({
     }),
   ],
   adapter: FaunaAdapter(client),
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/",
+  },
 });
