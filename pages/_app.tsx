@@ -3,21 +3,18 @@ import { AppProps } from "next/app";
 import { SessionProvider as AuthProvider } from "next-auth/react";
 import Head from "next/head";
 
-const App = (
-  { Component, pageProps }: AppProps,
-  session,
-) => {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
         <title>ユーザーマネージメント</title>
         <link rel="icon" href="favicon.svg" />
       </Head>
-      <AuthProvider session={session}>
-        <ChakraProvider>
+      <ChakraProvider>
+        <AuthProvider session={pageProps.session}>
           <Component {...pageProps} />
-        </ChakraProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ChakraProvider>
     </>
   );
 };
