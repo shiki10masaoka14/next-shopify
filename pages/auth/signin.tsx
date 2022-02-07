@@ -37,7 +37,7 @@ const SignIn: NextPage = memo(() => {
       const { error } = await signIn("email", {
         email,
         redirect: false,
-        callbackUrl: `${window.location.origin}/`,
+        callbackUrl: `${window.location.origin}/auth/confirm-request`,
       });
       if (error) {
         throw new Error(error);
