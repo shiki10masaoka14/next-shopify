@@ -48,6 +48,8 @@ const todo: NextPage<UserQuery> = memo(({ user }) => {
       },
     ]);
 
+    setTask("");
+
     await sdk.CreateTodo({
       data: {
         task: task,
