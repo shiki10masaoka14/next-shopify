@@ -37,9 +37,9 @@ const ConfirmRequest: NextPage = memo(() => {
         ) : (
           <>
             <Center minH={"100vh"}>
-              <NextLink href="/" passHref>
+              <NextLink href="/todo" passHref>
                 <Link fontSize={24} fontWeight={"bold"}>
-                  go to Home
+                  go to todo
                 </Link>
               </NextLink>
             </Center>
@@ -53,23 +53,24 @@ ConfirmRequest.displayName = "ConfirmRequest";
 
 export default ConfirmRequest;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-  const sdk = getSdk(graphQLClient);
+export const getServerSideProps: GetServerSideProps =
+  async (context) => {
+    const session = await getSession(context);
+    const sdk = getSdk(graphQLClient);
 
-  try {
-    await sdk.CreateUser({
-      data: {
-        email: session.user.email,
+    try {
+      await sdk.CreateUser({
+        data: {
+          email: session.user.email,
+        },
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+
+    return {
+      props: {
+        session,
       },
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
-
-  return {
-    props: {
-      session,
-    },
+    };
   };
-};

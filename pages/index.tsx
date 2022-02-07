@@ -31,9 +31,6 @@ const home: NextPage = memo(() => {
             <Link>go to todo page</Link>
           </NextLink>
           <br />
-          <NextLink href="/gqlTest" passHref>
-            <Link>go to todo test</Link>
-          </NextLink>
         </>
       )}
     </>
