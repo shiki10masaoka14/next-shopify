@@ -1,17 +1,21 @@
-query getAllTodos {
-  allTodos {
-    data {
-      _id
-      task
-      completed
+query User($email: String!) {
+  user(email: $email) {
+    _id
+    email
+    todos {
+      data {
+        _id
+        completed
+        task
+      }
     }
   }
 }
 
-query getFindTodoByID($id: ID!) {
+query FindTodoById($id: ID!) {
   findTodoByID(id: $id) {
     _id
-    task
     completed
+    task
   }
 }

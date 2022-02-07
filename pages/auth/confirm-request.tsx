@@ -4,11 +4,13 @@ import {
   Heading,
   Center,
 } from "@chakra-ui/react";
-import { NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { GetServerSideProps, NextPage } from "next";
+import { getSession, useSession } from "next-auth/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { memo } from "react";
+import { graphQLClient } from "../../utils/fetcher";
+import { getSdk } from "../../utils/generated";
 
 // ここまで「import」
 //
@@ -50,3 +52,24 @@ const ConfirmRequest: NextPage = memo(() => {
 ConfirmRequest.displayName = "ConfirmRequest";
 
 export default ConfirmRequest;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+  const sdk = getSdk(graphQLClient);
+
+  try {
+    await sdk.CreateUser({
+      data: {
+        email: session.user.email,
+      },
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+};

@@ -12,16 +12,7 @@ import {
 import { memo, VFC, MouseEvent, ChangeEvent } from "react";
 
 type PROPS = {
-  data: Array<
-    | {
-        __typename?: "Todo";
-        _id: string;
-        task: string;
-        completed: boolean;
-      }
-    | null
-    | undefined
-  >;
+  data;
   onChangeComplete: (
     e: ChangeEvent<HTMLInputElement>,
   ) => void;

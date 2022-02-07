@@ -1,8 +1,16 @@
-mutation CreateTodo($task: String!) {
-  createTodo(data: { task: $task, completed: false }) {
+mutation CreateTodo($data: TodoInput!) {
+  createTodo(data: $data) {
     _id
-    task
     completed
+    task
+    user {
+      email
+    }
+  }
+}
+mutation CreateUser($data: UserInput!) {
+  createUser(data: $data) {
+    email
   }
 }
 
@@ -14,7 +22,7 @@ mutation DeleteTodo($id: ID!) {
   }
 }
 
-mutation PartialUpdateTodo(
+mutation UpdateTodo(
   $id: ID!
   $data: PartialUpdateTodoInput!
 ) {

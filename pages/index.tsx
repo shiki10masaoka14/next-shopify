@@ -18,14 +18,23 @@ const home: NextPage = memo(() => {
   return (
     <>
       <NextLink href="/auth/signin" passHref>
-        <Link>go to todo page</Link>
+        <Link>go to sign in page</Link>
       </NextLink>
       {loading ? (
         <Text>Loading...</Text>
       ) : !session ? (
         <Text>Log in</Text>
       ) : (
-        <Text>{session?.user?.email}</Text>
+        <>
+          <Text>{session?.user?.email}</Text>
+          <NextLink href="/todo" passHref>
+            <Link>go to todo page</Link>
+          </NextLink>
+          <br />
+          <NextLink href="/gqlTest" passHref>
+            <Link>go to todo test</Link>
+          </NextLink>
+        </>
       )}
     </>
   );

@@ -1,34 +1,22 @@
 import {
-  Button,
-  Container,
   Heading,
-  HStack,
+  Container,
   Input,
-  Spinner,
-  Center,
+  Button,
+  HStack,
 } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
-import Router from "next/router";
 import {
   ChangeEvent,
-  memo,
   MouseEvent,
+  memo,
   useState,
 } from "react";
-import useSWR from "swr";
-import {
-  CreateTodoDocument,
-  DeleteTodoDocument,
-  GetAllTodosDocument,
-  GetAllTodosQuery,
-  getSdk,
-  PartialUpdateTodoDocument,
-} from "../../utils/generated";
-import {
-  fetcher,
-  graphQLClient,
-} from "../../utils/fetcher";
+import { getSdk, UserQuery } from "../../utils/generated";
+import { graphQLClient } from "../../utils/fetcher";
+import { getSession, useSession } from "next-auth/react";
 import { TableComponent } from "../../components/Table";
+import Router from "next/router";
 
 // ここまで「import」
 //
@@ -36,149 +24,116 @@ import { TableComponent } from "../../components/Table";
 //
 // ここから
 
-const todo: NextPage<GetAllTodosQuery> = memo(
-  ({ allTodos }) => {
-    const [task, setTask] = useState("");
-    const [todos, setTodos] = useState(allTodos.data);
-    const [filtering, setFiltering] = useState(false);
-    const [complete, setComplete] =
-      useState<boolean>(false);
+const todo: NextPage<UserQuery> = memo(({ user }) => {
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState(user.todos.data);
+  // const [filtering, setFiltering] = useState(false);
+  // const [complete, setComplete] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const sdk = getSdk(graphQLClient);
 
-    const { data, error } = useSWR(
-      GetAllTodosDocument,
-      fetcher,
+  const onChangeTask = (
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTask(e.target.value);
+  };
+
+  const onClickAdd = async () => {
+    setTodos([
+      ...todos,
       {
-        fallbackData: allTodos,
-      },
-    );
-
-    if (!data) {
-      return (
-        <Center minH={"100vh"} color={"gray.500"}>
-          <Spinner size="xl" mr={"2"} />
-          <Heading>Loading...</Heading>
-        </Center>
-      );
-    }
-    if (error) {
-      <Center minH={"100vh"} color={"gray.500"}>
-        <Heading>{error.message}</Heading>
-      </Center>;
-    }
-
-    const onChangeTask = (
-      e: ChangeEvent<HTMLInputElement>,
-    ) => {
-      setTask(e.currentTarget.value);
-    };
-
-    const onClickAdd = async () => {
-      setTodos([
-        ...todos,
-        {
-          _id: "",
-          task,
-          completed: false,
-        },
-      ]);
-      setTask("");
-      await fetcher(CreateTodoDocument, {
+        _id: "",
         task,
-      });
-      const sdk = getSdk(graphQLClient);
-      const { allTodos } = await sdk.getAllTodos();
-      setTodos(allTodos.data);
-    };
+        completed: false,
+      },
+    ]);
 
-    const onClickDetail = (
-      e: MouseEvent<HTMLInputElement>,
-    ) => {
-      const id = e.currentTarget.id;
-      Router.push("/[id]", `/${id}`);
-    };
+    await sdk.CreateTodo({
+      data: {
+        task: task,
+        completed: false,
+        user: {
+          connect: user._id,
+        },
+      },
+    });
 
-    const onClickDelete = async (
-      e: MouseEvent<HTMLInputElement>,
-    ) => {
-      const id = e.currentTarget.id;
-      setTodos(todos.filter((todo) => todo._id !== id));
-      await fetcher(DeleteTodoDocument, {
-        id,
-      });
-    };
+    const { user: newUser } = await sdk.User({
+      email: session.user.email,
+    });
+    setTodos(newUser.todos.data);
+  };
 
-    const onChangeComplete = async (
-      e: ChangeEvent<HTMLInputElement>,
-    ) => {
-      const id = e.currentTarget.id;
-      const completed = e.currentTarget.checked;
-      setTodos(
-        todos.map((todo) =>
-          todo._id === id ? { ...todo, completed } : todo,
-        ),
-      );
-      await fetcher(PartialUpdateTodoDocument, {
-        id,
-        data: { completed },
-      });
-    };
-
-    const onClickAll = () => {
-      setFiltering(false);
-    };
-
-    const onClickIncomplete = () => {
-      setFiltering(true);
-      setComplete(false);
-    };
-
-    const onClickComplete = () => {
-      setFiltering(true);
-      setComplete(true);
-    };
-
-    return (
-      <Container pt={10}>
-        <HStack mb={4}>
-          <Input value={task} onChange={onChangeTask} />
-          <Button onClick={onClickAdd}>add</Button>
-        </HStack>
-        <HStack mb={10} justify={"center"}>
-          <Button onClick={onClickAll}>show all</Button>
-          <Button onClick={onClickIncomplete}>
-            incomplete
-          </Button>
-          <Button onClick={onClickComplete}>
-            complete
-          </Button>
-        </HStack>
-        <TableComponent
-          data={
-            !filtering
-              ? todos
-              : complete
-              ? todos.filter(
-                  (todo) => todo.completed === true,
-                )
-              : todos.filter(
-                  (todo) => todo.completed === false,
-                )
-          }
-          onClickDetail={onClickDetail}
-          onClickDelete={onClickDelete}
-          onChangeComplete={onChangeComplete}
-        />
-      </Container>
+  const onChangeComplete = async (
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
+    const id = e.currentTarget.id;
+    const completed = e.currentTarget.checked;
+    setTodos(
+      todos.map((todo) =>
+        todo._id === id ? { ...todo, completed } : todo,
+      ),
     );
-  },
-);
+    await sdk.UpdateTodo({
+      id,
+      data: {
+        completed,
+      },
+    });
+  };
+
+  const onClickDetail = (
+    e: MouseEvent<HTMLInputElement>,
+  ) => {
+    const id = e.currentTarget.id;
+    Router.push("/todo/[id]", `/todo/${id}`);
+  };
+
+  const onClickDelete = async (
+    e: MouseEvent<HTMLInputElement>,
+  ) => {
+    const id = e.currentTarget.id;
+    setTodos(todos.filter((todo) => todo._id !== id));
+    await sdk.DeleteTodo({
+      id: id,
+    });
+  };
+
+  return (
+    <Container>
+      <Heading textAlign={"center"} my={6}>
+        {session.user.email}
+      </Heading>
+      <HStack mb={6}>
+        <Input value={task} onChange={onChangeTask} />
+        <Button onClick={onClickAdd}>add</Button>
+      </HStack>
+      <TableComponent
+        data={todos}
+        onChangeComplete={onChangeComplete}
+        onClickDetail={onClickDetail}
+        onClickDelete={onClickDelete}
+      />
+    </Container>
+  );
+});
 todo.displayName = "todo";
 
 export default todo;
 
-export const getServerSideProps: GetServerSideProps =
-  async () => {
-    const sdk = getSdk(graphQLClient);
-    const { allTodos } = await sdk.getAllTodos();
-    return { props: { allTodos } };
+export const getServerSideProps: GetServerSideProps<
+  UserQuery
+> = async (context) => {
+  const session = await getSession(context);
+  const sdk = getSdk(graphQLClient);
+  const { user } = await sdk.User({
+    email: session?.user?.email,
+  });
+
+  return {
+    props: {
+      session,
+      user,
+    },
   };
+};

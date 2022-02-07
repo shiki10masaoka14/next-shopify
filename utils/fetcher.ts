@@ -1,9 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import {
-  CreateTodoMutationVariables,
-  DeleteTodoMutationVariables,
-  PartialUpdateTodoMutationVariables,
-} from "./generated";
+import { CreateTodoMutationVariables } from "./generated";
 
 const endpoint = "https://graphql.fauna.com/graphql";
 
@@ -16,8 +12,5 @@ export const graphQLClient = new GraphQLClient(endpoint, {
 
 export const fetcher = async (
   query,
-  variables?:
-    | CreateTodoMutationVariables
-    | DeleteTodoMutationVariables
-    | PartialUpdateTodoMutationVariables,
+  variables?: CreateTodoMutationVariables,
 ) => await graphQLClient.request(query, variables);

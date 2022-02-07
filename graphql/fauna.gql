@@ -1,8 +1,15 @@
+type User {
+  email: String! @unique
+  todos: [Todo!] @relation
+}
+
 type Todo {
   task: String!
   completed: Boolean!
+  user: User!
 }
 
 type Query {
-  allTodos: [Todo!]
+  users: [User]
+  user(email: String!): User
 }

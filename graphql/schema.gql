@@ -81,7 +81,7 @@ type Mutation {
 input PartialUpdateTodoInput {
   task: String
   completed: Boolean
-  owner: TodoOwnerRelation
+  user: TodoUserRelation
 }
 
 # 'User' input values
@@ -96,11 +96,11 @@ scalar Time
 input TodoInput {
   task: String!
   completed: Boolean!
-  owner: TodoOwnerRelation
+  user: TodoUserRelation
 }
 
-# Allow manipulating the relationship between the types 'Todo' and 'User' using the field 'Todo.owner'.
-input TodoOwnerRelation {
+# Allow manipulating the relationship between the types 'Todo' and 'User' using the field 'Todo.user'.
+input TodoUserRelation {
   # Create a document of type 'User' and associate it with the current document.
   create: UserInput
 
@@ -127,24 +127,25 @@ input UserTodosRelation {
 }
 
 type Query {
-  # Find a document from the collection of 'User' by its id.
-  findUserByID(
-    # The 'User' document's ID
-    id: ID!
-  ): User
-
   # Find a document from the collection of 'Todo' by its id.
   findTodoByID(
     # The 'Todo' document's ID
     id: ID!
   ): Todo
-  allTodos(
+
+  # Find a document from the collection of 'User' by its id.
+  findUserByID(
+    # The 'User' document's ID
+    id: ID!
+  ): User
+  users(
     # The number of items to return per page.
     _size: Int
 
     # The pagination cursor.
     _cursor: String
-  ): TodoPage!
+  ): UserPage!
+  user(email: String!): User
 }
 
 type Todo {
@@ -153,7 +154,7 @@ type Todo {
   # The document's ID.
   _id: ID!
   completed: Boolean!
-  owner: User!
+  user: User!
 
   # The document's timestamp.
   _ts: Long!
@@ -185,6 +186,18 @@ type User {
     # The pagination cursor.
     _cursor: String
   ): TodoPage!
+}
+
+# The pagination object for elements of type 'User'.
+type UserPage {
+  # The elements of type 'User' in this page.
+  data: [User]!
+
+  # A cursor for elements coming after the current page.
+  after: String
+
+  # A cursor for elements coming before the current page.
+  before: String
 }
 
 # The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1.

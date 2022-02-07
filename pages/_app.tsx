@@ -8,7 +8,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>ユーザーマネージメント</title>
-        <link rel="icon" href="favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
       <ChakraProvider>
         <AuthProvider session={pageProps.session}>

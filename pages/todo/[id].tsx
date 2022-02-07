@@ -7,11 +7,12 @@ import {
 } from "@chakra-ui/react";
 import { GetServerSideProps, NextPage } from "next";
 import { ChangeEvent, memo, useState } from "react";
-import { fetcher, graphQLClient } from "../../utils/fetcher";
 import {
-  GetFindTodoByIdQuery,
+  graphQLClient,
+} from "../../utils/fetcher";
+import {
+  FindTodoByIdQuery,
   getSdk,
-  PartialUpdateTodoDocument,
 } from "../../utils/generated";
 
 // ここまで「import」
@@ -20,17 +21,20 @@ import {
 //
 // ここから
 
-const Task: NextPage<GetFindTodoByIdQuery> = memo(
+const Task: NextPage<FindTodoByIdQuery> = memo(
   ({ findTodoByID }) => {
     const [task, setTask] = useState(findTodoByID.task);
+    const sdk = getSdk(graphQLClient);
 
     const onChangeCompleted = async (
       e: ChangeEvent<HTMLInputElement>,
     ) => {
       const completed = e.currentTarget.checked;
-      await fetcher(PartialUpdateTodoDocument, {
+      await sdk.UpdateTodo({
+        data: {
+          completed,
+        },
         id: findTodoByID._id,
-        data: { completed },
       });
     };
 
@@ -41,9 +45,11 @@ const Task: NextPage<GetFindTodoByIdQuery> = memo(
     };
 
     const onClickSave = async () => {
-      await fetcher(PartialUpdateTodoDocument, {
+      await sdk.UpdateTodo({
+        data: {
+          task,
+        },
         id: findTodoByID._id,
-        data: { task },
       });
     };
 
@@ -71,9 +77,7 @@ export const getServerSideProps: GetServerSideProps =
   async ({ params }) => {
     const id = String(params.id);
     const sdk = getSdk(graphQLClient);
-    const { findTodoByID } = await sdk.getFindTodoByID({
-      id,
-    });
+    const { findTodoByID } = await sdk.FindTodoById({ id });
     return { props: { findTodoByID } };
   };
 
