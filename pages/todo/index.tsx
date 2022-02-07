@@ -22,13 +22,13 @@ import Router from "next/router";
 //
 //
 //
-// ここから
+// ここから「関数」
 
 const todo: NextPage<UserQuery> = memo(({ user }) => {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState(user.todos.data);
-  // const [filtering, setFiltering] = useState(false);
-  // const [complete, setComplete] = useState<boolean>(false);
+  const [filtering, setFiltering] = useState(false);
+  const [complete, setComplete] = useState(false);
   const { data: session } = useSession();
   const sdk = getSdk(graphQLClient);
 
@@ -99,6 +99,24 @@ const todo: NextPage<UserQuery> = memo(({ user }) => {
     });
   };
 
+  const onClickAll = () => {
+    setFiltering(false);
+  };
+  const onClickIncomplete = () => {
+    setFiltering(true);
+    setComplete(false);
+  };
+  const onClickComplete = () => {
+    setFiltering(true);
+    setComplete(true);
+  };
+
+  // ここまで「関数」
+  //
+  //
+  //
+  // ここから「tsx」
+
   return (
     <Container>
       <Heading textAlign={"center"} my={6}>
@@ -108,8 +126,25 @@ const todo: NextPage<UserQuery> = memo(({ user }) => {
         <Input value={task} onChange={onChangeTask} />
         <Button onClick={onClickAdd}>add</Button>
       </HStack>
+      <HStack justify={"center"}>
+        <Button onClick={onClickAll}>show all</Button>
+        <Button onClick={onClickIncomplete}>
+          incomplete
+        </Button>
+        <Button onClick={onClickComplete}>complete</Button>
+      </HStack>
       <TableComponent
-        data={todos}
+        data={
+          !filtering
+            ? todos
+            : complete
+            ? todos.filter(
+                (todo) => todo.completed === true,
+              )
+            : todos.filter(
+                (todo) => todo.completed === false,
+              )
+        }
         onChangeComplete={onChangeComplete}
         onClickDetail={onClickDetail}
         onClickDelete={onClickDelete}
@@ -120,6 +155,12 @@ const todo: NextPage<UserQuery> = memo(({ user }) => {
 todo.displayName = "todo";
 
 export default todo;
+
+// ここまで「tsx」
+//
+//
+//
+// ここから「ssr」
 
 export const getServerSideProps: GetServerSideProps<
   UserQuery
