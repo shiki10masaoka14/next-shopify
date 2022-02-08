@@ -13,6 +13,7 @@ services:
       - .:/workspace
       - /workspace/node_modules
       - /workspace/.next
+      - /workspace/.vercel
     # 環境変数
     environment:
       TZ: "Asia/Tokyo"
