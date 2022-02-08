@@ -3,7 +3,7 @@ version: "3"
 services:
   node:
     # コンテナ名
-    container_name: next_fauna
+    container_name: next-shopify
     # build
     image: node:16-alpine3.14
     # コンテナの中に入る

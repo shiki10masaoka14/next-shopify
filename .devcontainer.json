@@ -1,5 +1,5 @@
 {
-  "name": "next_fauna",
+  "name": "next-shopify",
   "dockerComposeFile": "./docker-compose.yml",
   "service": "node",
   "workspaceFolder": "/workspace",
