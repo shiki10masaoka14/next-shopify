@@ -1,0 +1,9 @@
+query FindProducts($first: Int) {
+  products(first: $first) {
+    edges {
+      node {
+        title
+      }
+    }
+  }
+}

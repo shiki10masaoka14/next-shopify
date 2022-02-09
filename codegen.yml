@@ -22,7 +22,7 @@
 #       - typescript-resolvers
 
 # front end
-schema: graphql/schema.gql
+schema: graphql/schema.graphql
 documents:
   - graphql/query.gql
   - graphql/mutation.gql
@@ -32,6 +32,3 @@ generates:
       - typescript
       - typescript-operations
       - typescript-graphql-request
-      # - plugin-typescript-swr
-# config:
-#   autogenSWRKey: true

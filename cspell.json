@@ -1,6 +1,9 @@
 {
   "version": "0.2",
-  "ignorePaths": [],
+  "ignorePaths": [
+    "utils/generated.ts",
+    "graphql/schema.graphql"
+  ],
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [
@@ -22,6 +25,7 @@
     "hoge",
     "jsxdev",
     "kohler",
+    "myshopify",
     "nestjs",
     "NEXTAUTH",
     "Nikolas",
@@ -43,7 +47,5 @@
   ],
   "ignoreWords": [],
   "import": [],
-  "enableFiletypes": [
-    "prisma"
-  ]
+  "enableFiletypes": ["prisma"]
 }
