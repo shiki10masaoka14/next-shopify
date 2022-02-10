@@ -6309,7 +6309,7 @@ export type FindProductsQueryVariables = Exact<{
 }>;
 
 
-export type FindProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', title: string } }> } };
+export type FindProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', title: string, id: string, description: string, media: { __typename?: 'MediaConnection', edges: Array<{ __typename?: 'MediaEdge', node: { __typename?: 'ExternalVideo', previewImage?: { __typename?: 'Image', src: any } | null | undefined } | { __typename?: 'MediaImage', previewImage?: { __typename?: 'Image', src: any } | null | undefined } | { __typename?: 'Model3d', previewImage?: { __typename?: 'Image', src: any } | null | undefined } | { __typename?: 'Video', previewImage?: { __typename?: 'Image', src: any } | null | undefined } }> } } }> } };
 
 
 export const FindProductsDocument = gql`
@@ -6318,6 +6318,17 @@ export const FindProductsDocument = gql`
     edges {
       node {
         title
+        id
+        description
+        media(first: $first) {
+          edges {
+            node {
+              previewImage {
+                src
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -3,7 +3,36 @@ query FindProducts($first: Int) {
     edges {
       node {
         title
+        id
+        description
+        media(first: $first) {
+          edges {
+            node {
+              previewImage {
+                src
+              }
+            }
+          }
+        }
       }
     }
   }
 }
+
+# query FindUrl($first: Int) {
+#   products(first: $first) {
+#     edges {
+#       node {
+#         media(first: $first) {
+#           edges {
+#             node {
+#               previewImage {
+#                 src
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
