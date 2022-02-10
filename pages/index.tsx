@@ -1,5 +1,8 @@
 import { Text } from "@chakra-ui/react";
-import { NextPage, GetServerSideProps } from "next";
+import {
+  NextPage,
+  GetStaticProps,
+} from "next";
 import { memo } from "react";
 import {
   FindProductsQuery,
@@ -12,7 +15,6 @@ import { graphQLClient } from "../utils/shopifyClient";
 //
 //
 // ここから「実装」
-
 const home: NextPage<FindProductsQuery> = memo(
   ({ products }) => {
     // ここまで「関数」
@@ -42,14 +44,13 @@ export default home;
 //
 // ここから「ssr」
 
-export const getServerSideProps: GetServerSideProps =
-  async () => {
-    const sdk = getSdk(graphQLClient);
-    const { products } = await sdk.FindProducts({
-      first: 10,
-    });
+export const getStaticProps: GetStaticProps = async () => {
+  const sdk = getSdk(graphQLClient);
+  const { products } = await sdk.FindProducts({
+    first: 10,
+  });
 
-    return {
-      props: { products },
-    };
+  return {
+    props: { products },
   };
+};

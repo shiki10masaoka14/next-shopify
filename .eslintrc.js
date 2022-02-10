@@ -1,8 +1,20 @@
 module.exports = {
   extends: [
+    "eslint:recommended",
     "next/core-web-vitals",
+    "plugin:import/recommended",
+    "plugin:import/warnings",
     "prettier",
   ],
-  parser: "@typescript-eslint/parser",
+  rules: {
+    "import/order": [
+      "error",
+      {
+        alphabetize: {
+          order: "asc",
+        },
+      },
+    ],
+  },
   ignorePatterns: ["utils/generated.ts"],
 };
