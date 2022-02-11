@@ -1,5 +1,5 @@
-import { Image } from "@chakra-ui/react";
-import { NextPage, GetStaticProps } from "next";
+import { GetStaticProps, NextPage } from "next";
+import Image from "next/image";
 import { memo } from "react";
 import {
   FindProductsQuery,
@@ -15,7 +15,6 @@ import { graphQLClient } from "../utils/shopifyClient";
 
 const home: NextPage<FindProductsQuery> = memo(
   ({ products }) => {
-
     // ここまで「関数」
     //
     //
@@ -24,13 +23,13 @@ const home: NextPage<FindProductsQuery> = memo(
 
     return (
       <>
-        {products.edges.map((item) => (
+        {products.edges.map(({ node }) => (
           <Image
-            key={item.node.id}
-            src={
-              item.node.media.edges[0].node.previewImage.src
-            }
-            alt={"商品画像"}
+            key={node.id}
+            src={node.media.edges[0].node.previewImage.src}
+            alt={node.title}
+            width={300}
+            height={300}
           />
         ))}
       </>
@@ -49,9 +48,6 @@ export default home;
 
 export const getStaticProps: GetStaticProps = async () => {
   const sdk = getSdk(graphQLClient);
-  // const { products } = await sdk.FindProducts({
-  //   first: 8,
-  // });
   const { products } = await sdk.FindProducts({
     first: 8,
   });

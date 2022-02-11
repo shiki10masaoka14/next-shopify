@@ -18,21 +18,3 @@ query FindProducts($first: Int) {
     }
   }
 }
-
-# query FindUrl($first: Int) {
-#   products(first: $first) {
-#     edges {
-#       node {
-#         media(first: $first) {
-#           edges {
-#             node {
-#               previewImage {
-#                 src
-#               }
-#             }
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
